@@ -12,6 +12,7 @@ public class SecurityConfig {
     // TODO: All security disabled now - not good idea maybe (for faster development)
 
     @Bean
+    @SuppressWarnings("RedundantThrows")
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll()).csrf(AbstractHttpConfigurer::disable);
 

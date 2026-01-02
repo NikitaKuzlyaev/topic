@@ -1,0 +1,23 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #f4f1de;
+}
+
+.home {
+  padding: 80px 40px 40px 40px;
+  text-align: center;
+}
+
+.home h2 {
+  margin-top: 0;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.home p {
+  font-size: 1.1rem;
+  color: #444;
+}

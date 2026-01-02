@@ -1,0 +1,21 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #ccd5ae;
+  color: #fff;
+  padding: 10px 0;
+  text-align: center;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.header h1.TopicLabel {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: left;
+  margin-left: 40px;
+  color: #ffd60a;
+}

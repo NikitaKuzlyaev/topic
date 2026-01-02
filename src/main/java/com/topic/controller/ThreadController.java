@@ -32,6 +32,15 @@ public class ThreadController {
         return new EntityIdResponse(123L);
     }
 
+    @GetMapping()
+    public ThreadMainInfoResponse getLastThreadsInfo(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int pageSize
+    ) {
+        // TODO: заглушка
+        return new ThreadMainInfoResponse(123L, "Name");
+    }
+
     @GetMapping("/{id}")
     public ThreadMainInfoResponse getThreadMainInfo(
             @PathVariable Long id

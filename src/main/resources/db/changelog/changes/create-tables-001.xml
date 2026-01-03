@@ -1,0 +1,81 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="nikita (generated)" id="1767423981706-9">
+        <dropForeignKeyConstraint baseTableName="spring_session_attributes" constraintName="spring_session_attributes_fk"/>
+    </changeSet>
+    <changeSet author="nikita (generated)" id="1767423981706-1">
+        <createTable tableName="publications">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="publicationsPK"/>
+            </column>
+            <column name="content" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP(6) WITHOUT TIME ZONE"/>
+            <column name="author_id" type="BIGINT"/>
+            <column name="parent_id" type="BIGINT"/>
+            <column name="thread_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="nikita (generated)" id="1767423981706-2">
+        <createTable tableName="threads">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="threadsPK"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP(6) WITHOUT TIME ZONE"/>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parent_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="nikita (generated)" id="1767423981706-3">
+        <createTable tableName="users">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="usersPK"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP(6) WITHOUT TIME ZONE"/>
+            <column name="hashedPassword" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="login" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="salt" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="nikita (generated)" id="1767423981706-4">
+        <addForeignKeyConstraint baseColumnNames="parent_id" baseTableName="publications" constraintName="FK3cynfgdko9gswn9wdllysjxt3" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="publications" validate="true"/>
+    </changeSet>
+    <changeSet author="nikita (generated)" id="1767423981706-5">
+        <addForeignKeyConstraint baseColumnNames="author_id" baseTableName="threads" constraintName="FK7n8uiua8ljj5dwubk7wxlm9d0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="nikita (generated)" id="1767423981706-6">
+        <addForeignKeyConstraint baseColumnNames="author_id" baseTableName="publications" constraintName="FK7tqyw7wmlxhgag5w2gpy9xoj3" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="nikita (generated)" id="1767423981706-7">
+        <addForeignKeyConstraint baseColumnNames="thread_id" baseTableName="publications" constraintName="FK7wqmyabgy9ugkfjnm7r131b4r" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="threads" validate="true"/>
+    </changeSet>
+    <changeSet author="nikita (generated)" id="1767423981706-8">
+        <addForeignKeyConstraint baseColumnNames="parent_id" baseTableName="threads" constraintName="FKe5x52fvek9qj3fu5hd4m774ln" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="threads" validate="true"/>
+    </changeSet>
+    <changeSet author="nikita (generated)" id="1767423981706-10">
+        <dropTable tableName="flyway_schema_history"/>
+    </changeSet>
+    <changeSet author="nikita (generated)" id="1767423981706-11">
+        <dropTable tableName="spring_session"/>
+    </changeSet>
+    <changeSet author="nikita (generated)" id="1767423981706-12">
+        <dropTable tableName="spring_session_attributes"/>
+    </changeSet>
+</databaseChangeLog>

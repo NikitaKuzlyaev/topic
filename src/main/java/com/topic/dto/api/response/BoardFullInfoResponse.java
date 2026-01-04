@@ -2,8 +2,8 @@ package com.topic.dto.api.response;
 
 import java.util.List;
 
-public record ThreadFullInfoResponse(
-        ThreadMainInfoResponse info,
+public record BoardFullInfoResponse(
+        BoardMainInfoResponse info,
         List<PublicationInfoResponse> publications,
         PageResponse pages
 ) { }

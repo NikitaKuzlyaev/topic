@@ -1,5 +1,5 @@
 package com.topic.dto.api.request;
 
-public record ThreadMainInfoRequest(
+public record BoardMainInfoRequest(
         Long id
 ) { }

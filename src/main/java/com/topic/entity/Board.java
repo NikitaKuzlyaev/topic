@@ -8,7 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "threads")
+@Table(name = "boards")
 @Data
 public class Board {
 

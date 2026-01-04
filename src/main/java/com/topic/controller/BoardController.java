@@ -11,40 +11,44 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/api/thread")
 public class BoardController {
 
-    private final BoardService threadService;
+    private final BoardService boardService;
 
     @Autowired
-    public BoardController(BoardService threadService) {
-        this.threadService = threadService;
+    public BoardController(BoardService boardService) {
+        this.boardService = boardService;
     }
 
     @PostMapping()
     public EntityIdResponse createThread(
             @Valid @RequestBody BoardCreateRequest request
     ) {
-        BoardDto thread = threadService.createBoard(Util.mapToCreateThreadDTO(request));
-        return new EntityIdResponse(thread.id());
+        BoardDto board = boardService.createBoard(Util.mapToCreateThreadDTO(request));
+        return new EntityIdResponse(board.id());
     }
 
     @GetMapping("/{id}")
-    public BoardMainInfoResponse getThread(
+    public BoardMainInfoResponse getBoard(
             @PathVariable Long id
     ) {
-        BoardDto thread = threadService.getBoard(id);
-        return new BoardMainInfoResponse(thread.id(), thread.title());
+        BoardDto board = boardService.getBoard(id);
+        return new BoardMainInfoResponse(board.id(), board.title());
     }
 
-    @GetMapping("/p")
-    public BoardPaginatedResponse getThreadsPaginated(
-        @RequestParam(defaultValue = "1") int page,
+    @GetMapping("")
+    public BoardPaginatedResponse getBoardsPaginated(
+        @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int pageSize
     ){
-        PaginatedBoardDto paginatedThreads = threadService.getBoards(page, pageSize);
-        return Util.mapToThreadsPaginatedResponse(paginatedThreads);
+        PaginatedBoardDto paginatedBoards = boardService.getBoards(page, pageSize);
+        return Util.mapToBoardPaginatedResponse(paginatedBoards);
     }
 
 }
@@ -54,9 +58,15 @@ class Util {
         return new CreateBoardDto(data.title());
     }
 
-    public static BoardPaginatedResponse mapToThreadsPaginatedResponse(PaginatedBoardDto data){
-        // TODO
-        throw new NotImplementedException("ThreadController");
+    public static BoardPaginatedResponse mapToBoardPaginatedResponse(PaginatedBoardDto data){
+        // todo: rename
+        List<BoardMainInfoResponse> res = new ArrayList<>();
+        for (var el: data.threads()){
+            res.add(new BoardMainInfoResponse(el.id(), el.title()));
+        }
+
+        return new BoardPaginatedResponse(
+                new PageResponse(data.currentPage(), data.pageSize(), data.totalPages()), res);
     }
 
 }

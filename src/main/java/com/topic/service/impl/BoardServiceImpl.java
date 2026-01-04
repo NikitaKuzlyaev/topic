@@ -9,9 +9,14 @@ import com.topic.service.dto.BoardDto;
 import com.topic.util.exeptions.NotImplementedException;
 import jakarta.persistence.EntityExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -36,7 +41,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public BoardDto getBoard(Long boardId) throws EntityExistsException {
         Optional<Board> data = boardRepository.findById(boardId);
-        if (data.isEmpty()){
+        if (data.isEmpty()) {
             throw new EntityExistsException();
         }
         return Util.mapToBoardDto(data.get());
@@ -44,13 +49,27 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public PaginatedBoardDto getBoards(int page, int pageSize) {
-        // TODO
-        return null;
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<Board> boardPage = boardRepository.findAll(pageable);
+        return Util.mapToPaginatedBoardDto(boardPage, page, pageSize);
     }
 }
 
-class Util{
-    static BoardDto mapToBoardDto(Board data){
+class Util {
+    static BoardDto mapToBoardDto(Board data) {
         throw new NotImplementedException("");
     }
+
+    static PaginatedBoardDto mapToPaginatedBoardDto(Page<Board> data, int page, int pageSize) {
+        List<BoardDto> boardDto = data.stream()
+                .map(el -> new BoardDto(
+                        el.getId(), el.getTitle(), el.getAuthor(), el.getParent(), el.getCreatedAt())
+                ).collect(Collectors.toList());
+
+        // TODO Заглушка
+        int totalPages = 10;
+
+        return new PaginatedBoardDto(page, totalPages, pageSize, boardDto);
+    }
+
 }

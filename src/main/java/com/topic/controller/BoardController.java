@@ -6,6 +6,7 @@ import com.topic.service.BoardService;
 import com.topic.service.dto.CreateBoardDto;
 import com.topic.service.dto.PaginatedBoardDto;
 import com.topic.service.dto.BoardDto;
+import com.topic.util.annotations.Logging;
 import com.topic.util.exeptions.NotImplementedException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class BoardController {
     }
 
     @PostMapping()
+    @Logging
     public EntityIdResponse createThread(
             @Valid @RequestBody BoardCreateRequest request
     ) {
@@ -35,6 +37,7 @@ public class BoardController {
     }
 
     @GetMapping("/{id}")
+    @Logging
     public BoardMainInfoResponse getBoard(
             @PathVariable Long id
     ) {
@@ -43,7 +46,7 @@ public class BoardController {
     }
 
     @GetMapping("")
-
+    @Logging
     public BoardPaginatedResponse getBoardsPaginated(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int pageSize

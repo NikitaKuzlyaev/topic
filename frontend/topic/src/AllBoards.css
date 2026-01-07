@@ -1,0 +1,71 @@
+/* Styles for AllBoards page */
+:root {
+  --ab-bg: #f8fbff;
+  --ab-card-bg: #ffffff;
+  --ab-text: #1f2937;
+  --ab-muted: #6b7280;
+  --ab-accent: #2563eb;
+  --ab-border: #e6eefb;
+  --ab-radius: 8px;
+  --ab-font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+
+.allboards-root {
+  font-family: var(--ab-font-family);
+  background: var(--ab-bg);
+  color: var(--ab-text);
+  min-height: 100vh;
+  padding: 88px 24px 40px; /* leave space for header */
+}
+
+.allboards-root h2 {
+  margin: 0 0 16px 0;
+  font-size: 1.75rem;
+}
+
+.ab-meta {
+  color: var(--ab-muted);
+  margin-bottom: 12px;
+}
+
+.ab-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.ab-item {
+  background: var(--ab-card-bg);
+  border: 1px solid var(--ab-border);
+  border-radius: var(--ab-radius);
+  padding: 12px 14px;
+  box-shadow: 0 1px 2px rgba(16,24,40,0.03);
+}
+
+.ab-item .title {
+  color: var(--ab-text);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.ab-item .id {
+  color: var(--ab-muted);
+  font-size: 0.875rem;
+}
+
+.ab-empty {
+  color: var(--ab-muted);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ab-bg: #0b1220;
+    --ab-card-bg: #0f1724;
+    --ab-text: #e6eef6;
+    --ab-muted: #9aa4b2;
+    --ab-border: rgba(255,255,255,0.04);
+  }
+}

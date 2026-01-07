@@ -9,8 +9,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  background-color: #f0f9ff;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -31,6 +30,24 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+/* subtle repeating SVG background using pseudo-element for opacity control */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url('./assets/GhostLine.svg');
+  background-repeat: repeat;
+  background-position: center top;
+  background-attachment: fixed;
+  background-size: 24px;
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ensure page content is above the background pseudo-element */
+.App { position: relative; z-index: 10; }
 
 h1 {
   font-size: 3.2em;

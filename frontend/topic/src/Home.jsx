@@ -24,7 +24,7 @@ function Home() {
 
 
     return (
-        <main className="min-h-screen flex items-start justify-center py-24 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <main className="min-h-screen flex items-start justify-center py-24 px-4 sm:px-6 lg:px-8 bg-sky-50">
             <div className="max-w-2xl w-full text-center">
                 <button
                     onClick={handleGetThread}

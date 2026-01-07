@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div className="App relative z-10">
         <Header />
         <div className="mx-auto w-2/3">
           <Routes>

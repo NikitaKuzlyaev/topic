@@ -1,5 +1,4 @@
 import React from 'react';
-import './Home.css';
 import config, { getApiUrl } from './config';
 
 function Home() {
@@ -25,18 +24,16 @@ function Home() {
 
 
     return (
-        <div className='HomeRoot'>
-            <main className="home">
-                
-                <button 
-                    className="api-button"
+        <main className="min-h-screen flex items-start justify-center py-24 px-4 sm:px-6 lg:px-8 bg-gray-50">
+            <div className="max-w-2xl w-full text-center">
+                <button
                     onClick={handleGetThread}
+                    className="inline-block bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-500"
                 >
                     [GET] /api/thread
                 </button>
-
-            </main>
-        </div>
+            </div>
+        </main>
     );
 }
 

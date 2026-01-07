@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './CreateBoard.css';
 import config, { getApiUrl } from './config';
 
 function CreateBoard() {
@@ -40,28 +39,30 @@ function CreateBoard() {
   };
 
   return (
-    <main className="create-root">
-      <h2>Create Board</h2>
+    <main className="min-h-screen bg-gray-50 py-24 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-2xl mx-auto w-full">
+        <h2 className="text-2xl font-semibold mb-4">Create Board</h2>
 
-      <form className="create-form" onSubmit={handleSubmit}>
-        <label className="field">
-          <div className="label">Title</div>
-          <input
-            className="input"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Enter board title"
-          />
-        </label>
+        <form className="bg-white border border-gray-100 p-6 rounded-md" onSubmit={handleSubmit}>
+          <label className="block mb-4">
+            <div className="font-medium mb-2">Title</div>
+            <input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Enter board title"
+              className="w-full p-2 border rounded-md"
+            />
+          </label>
 
-        {error && <div className="error">{error}</div>}
+          {error && <div className="text-red-600 mb-2">{error}</div>}
 
-        <div className="actions">
-          <button type="submit" className="btn" disabled={loading}>
-            {loading ? 'Creating…' : 'Create'}
-          </button>
-        </div>
-      </form>
+          <div>
+            <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded-md" disabled={loading}>
+              {loading ? 'Creating…' : 'Create'}
+            </button>
+          </div>
+        </form>
+      </div>
     </main>
   );
 }

@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import './Board.css';
 import config, { getApiUrl } from './config';
 
 function Board() {
@@ -76,57 +75,61 @@ function Board() {
   };
 
   return (
-    <main className="board-root">
-      {loading && <p>Loading...</p>}
-      {error && <p className="board-error">Error: {error}</p>}
+    <main className="min-h-screen bg-gray-50 py-24 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto w-full">
+        {loading && <p className="text-gray-600">Loading...</p>}
+        {error && <p className="text-red-600">Error: {error}</p>}
 
-      {data && (
-        <section className="board-card">
-          <h2 className="board-title">{data.boardInfo?.title || `Board ${id}`}</h2>
-          <div className="board-meta">id: {data.boardInfo?.id}</div>
+        {data && (
+          <section className="bg-white border border-gray-100 rounded-lg p-6">
+            <h2 className="text-2xl font-semibold mb-2">{data.boardInfo?.title || `Board ${id}`}</h2>
+            <div className="text-sm text-gray-500 mb-4">id: {data.boardInfo?.id}</div>
 
-          <div className="publications">
-            {Array.isArray(data.publications) && data.publications.length > 0 ? (
-              data.publications.map((pub) => (
-                <article key={pub.id} className="pub-card">
-                  <div className="pub-header">
-                    <span className="pub-author">{pub.author || 'anonymous'}</span>
-                    <span className="pub-id">#{pub.id}</span>
-                  </div>
-                  <div className="pub-content">{pub.content}</div>
-                </article>
-              ))
-            ) : (
-              <div className="pub-empty">No publications</div>
+            <div className="space-y-4">
+              {Array.isArray(data.publications) && data.publications.length > 0 ? (
+                data.publications.map((pub) => (
+                  <article key={pub.id} className="bg-white border border-gray-100 p-4 rounded-md shadow-sm">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-semibold text-gray-900">{pub.author || 'anonymous'}</span>
+                      <span className="text-gray-500 text-sm">#{pub.id}</span>
+                    </div>
+                    <div className="text-gray-800 whitespace-pre-wrap">{pub.content}</div>
+                  </article>
+                ))
+              ) : (
+                <div className="text-gray-500">No publications</div>
+              )}
+            </div>
+
+            <div className="mt-4">
+              <button className="inline-block bg-blue-600 text-white px-3 py-1 rounded-md font-medium hover:bg-blue-500" onClick={() => setShowForm((s) => !s)}>
+                {showForm ? 'Cancel' : 'Add Publication'}
+              </button>
+            </div>
+
+            {showForm && (
+              <form className="mt-4 border-t pt-4" onSubmit={handleCreatePublication}>
+                <label className="block mb-3">
+                  <div className="font-medium mb-2">Content</div>
+                  <textarea
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    rows={4}
+                    placeholder="Enter publication content"
+                    className="w-full p-2 border rounded-md"
+                  />
+                </label>
+                {pubError && <div className="text-red-600 mb-2">{pubError}</div>}
+                <div>
+                  <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded-md" disabled={pubLoading}>
+                    {pubLoading ? 'Posting…' : 'Post Publication'}
+                  </button>
+                </div>
+              </form>
             )}
-          </div>
-          <div className="pub-actions">
-            <button className="btn" onClick={() => setShowForm((s) => !s)}>
-              {showForm ? 'Cancel' : 'Add Publication'}
-            </button>
-          </div>
-
-          {showForm && (
-            <form className="pub-form" onSubmit={handleCreatePublication}>
-              <label className="pub-field">
-                <div className="label">Content</div>
-                <textarea
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  rows={4}
-                  placeholder="Enter publication content"
-                />
-              </label>
-              {pubError && <div className="error">{pubError}</div>}
-              <div className="actions">
-                <button type="submit" className="btn" disabled={pubLoading}>
-                  {pubLoading ? 'Posting…' : 'Post Publication'}
-                </button>
-              </div>
-            </form>
-          )}
-        </section>
-      )}
+          </section>
+        )}
+      </div>
     </main>
   );
 }

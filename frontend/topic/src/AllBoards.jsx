@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import './AllBoards.css';
 import { Link } from 'react-router-dom';
 import config, { getApiUrl } from './config';
 
@@ -44,37 +43,40 @@ function AllBoards() {
   }, []);
 
   return (
-    <main className="allboards-root">
-      <h2>All Boards</h2>
-      <div style={{ margin: '10px 0' }}>
-        <Link to="/board/create" className="ab-create-button">+ Create Board</Link>
+    <main className="min-h-screen bg-gray-50 text-gray-900 py-24 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto w-full">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-2xl font-semibold">All Boards</h2>
+          <Link to="/board/create" className="inline-block bg-blue-600 text-white px-3 py-1 rounded-md font-semibold hover:bg-blue-500">+ Create Board</Link>
+        </div>
+
+        {loading && <p className="text-gray-600">Loading...</p>}
+        {error && <p className="text-red-600">Error: {error}</p>}
+
+        {data && (
+          <section className="w-full">
+            <div className="text-gray-500 mb-4">
+              <strong>Page:</strong> {data.pageInfo?.currentPage} / {Math.max(0, (data.pageInfo?.totalPages || 0) - 1)}
+              &nbsp; <strong>Size:</strong> {data.pageInfo?.pageSize}
+            </div>
+
+            <ul className="flex flex-col gap-4">
+              {Array.isArray(data.threads) && data.threads.length > 0 ? (
+                data.threads.map((t) => (
+                  <li key={t.id} className="w-full bg-white border border-gray-100 rounded-lg p-4 shadow-sm">
+                    <div className="text-lg font-semibold text-gray-900 mb-2">
+                      <Link to={`/board/${t.id}`} className="hover:text-blue-600">{t.title}</Link>
+                    </div>
+                    <div className="text-sm text-gray-500">id: {t.id}</div>
+                  </li>
+                ))
+              ) : (
+                <li className="text-gray-500">No threads found</li>
+              )}
+            </ul>
+          </section>
+        )}
       </div>
-      {loading && <p>Loading...</p>}
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-
-      {data && (
-        <section>
-          <div className="ab-meta">
-            <strong>Page:</strong> {data.pageInfo?.currentPage} / {Math.max(0, (data.pageInfo?.totalPages || 0) - 1)}
-            &nbsp; <strong>Size:</strong> {data.pageInfo?.pageSize}
-          </div>
-
-          <ul className="ab-list">
-            {Array.isArray(data.threads) && data.threads.length > 0 ? (
-              data.threads.map((t) => (
-                <li key={t.id} className="ab-item">
-                  <div className="title">
-                    <Link to={`/board/${t.id}`}>{t.title}</Link>
-                  </div>
-                  <div className="id">id: {t.id}</div>
-                </li>
-              ))
-            ) : (
-              <li className="ab-empty">No threads found</li>
-            )}
-          </ul>
-        </section>
-      )}
     </main>
   );
 }

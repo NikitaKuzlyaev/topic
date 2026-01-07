@@ -3,7 +3,6 @@ import Home from './Home';
 import AllBoards from './AllBoards';
 import Board from './Board';
 import CreateBoard from './CreateBoard';
-import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -11,12 +10,14 @@ function App() {
     <Router>
       <div className="App">
         <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/all-boards" element={<AllBoards />} />
-          <Route path="/board/:id" element={<Board />} />
-          <Route path="/board/create" element={<CreateBoard />} />
-        </Routes>
+        <div className="mx-auto w-2/3">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/all-boards" element={<AllBoards />} />
+            <Route path="/board/:id" element={<Board />} />
+            <Route path="/board/create" element={<CreateBoard />} />
+          </Routes>
+        </div>
       </div>
     </Router>
   );

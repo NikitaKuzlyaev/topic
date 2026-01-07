@@ -1,7 +1,9 @@
 package com.topic.service.impl;
 
 import com.topic.entity.Board;
+import com.topic.entity.User;
 import com.topic.repository.BoardRepository;
+import com.topic.repository.UserRepository;
 import com.topic.service.BoardService;
 import com.topic.service.dto.CreateBoardDto;
 import com.topic.service.dto.PaginatedBoardDto;
@@ -24,15 +26,24 @@ public class BoardServiceImpl implements BoardService {
     @Autowired
     BoardRepository boardRepository;
 
-    public BoardServiceImpl(BoardRepository boardRepository) {
+    @Autowired
+    UserRepository userRepository;
+
+    public BoardServiceImpl(BoardRepository boardRepository, UserRepository userRepository) {
         this.boardRepository = boardRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
     public BoardDto createBoard(CreateBoardDto data) {
 
         Board board = new Board();
+
         board.setTitle(data.title());
+
+        // TODO: используется тестовый пользователь как автор ЛЮБЫХ досок
+        User author = userRepository.getReferenceById(1L);
+        board.setAuthor(author);
 
         var res = boardRepository.save(board);
         return Util.mapToBoardDto(res);

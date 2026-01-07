@@ -1,0 +1,40 @@
+/* Styles for CreateBoard page */
+.create-root {
+  padding: 88px 20px 40px;
+  min-height: 100vh;
+  background: var(--ab-bg, #f8fbff);
+  color: var(--ab-text, #1f2937);
+  font-family: var(--ab-font-family, system-ui, -apple-system, 'Segoe UI', Roboto, Arial);
+}
+
+.create-form {
+  max-width: 640px;
+  margin: 12px auto 0 auto;
+  background: var(--ab-card-bg, #fff);
+  border: 1px solid var(--ab-border, #e6eefb);
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.field { margin-bottom: 12px; }
+.label { font-weight: 600; margin-bottom: 6px; }
+.input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #dfe7f7;
+  font-size: 1rem;
+}
+
+.actions { margin-top: 12px; }
+.btn {
+  background: var(--ab-accent, #2563eb);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.error { color: #b91c1c; margin-top: 6px; }

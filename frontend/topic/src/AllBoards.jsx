@@ -46,6 +46,9 @@ function AllBoards() {
   return (
     <main className="allboards-root">
       <h2>All Boards</h2>
+      <div style={{ margin: '10px 0' }}>
+        <Link to="/board/create" className="ab-create-button">+ Create Board</Link>
+      </div>
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
 

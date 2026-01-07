@@ -1,11 +1,11 @@
 package com.topic.repository;
 
-import com.topic.entity.Board;
+import com.topic.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BoardRepository extends JpaRepository<Board, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
 
 }

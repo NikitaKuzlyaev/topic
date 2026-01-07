@@ -6,7 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration
+//@Configuration
 public class SecurityConfig {
 
     // TODO: All security disabled now - not good idea maybe (for faster development)
@@ -18,4 +18,5 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 }

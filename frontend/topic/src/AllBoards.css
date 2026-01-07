@@ -60,6 +60,18 @@
   color: var(--ab-muted);
 }
 
+.ab-create-button {
+  display: inline-block;
+  background: var(--ab-accent);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.ab-create-button:hover { opacity: 0.95; }
+
 @media (prefers-color-scheme: dark) {
   :root {
     --ab-bg: #0b1220;

@@ -34,3 +34,25 @@
 }
 
 .board-error { color: #ff6b6b; }
+
+.pub-actions { margin-top: 12px; }
+
+.pub-form { margin-top: 12px; border-top: 1px dashed rgba(0,0,0,0.06); padding-top: 12px; }
+.pub-field { margin-bottom: 10px; }
+.pub-field .label { font-weight: 600; margin-bottom: 6px; }
+.pub-form textarea { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #dfe7f7; }
+
+/* Publication cards */
+.publications { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 14px; }
+.pub-card {
+  background: var(--ab-card-bg, #fff);
+  border: 1px solid var(--ab-border, #e6eefb);
+  padding: 12px;
+  border-radius: 8px;
+}
+.pub-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.pub-author { font-weight:700; color:var(--ab-text,#1f2937); }
+.pub-id { color:var(--ab-muted,#6b7280); font-size:0.9rem; }
+.pub-content { color:var(--ab-text,#111827); white-space:pre-wrap; }
+.pub-empty { color:var(--ab-muted,#6b7280); }
+

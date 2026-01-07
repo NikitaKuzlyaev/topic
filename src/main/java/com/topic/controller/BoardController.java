@@ -3,18 +3,14 @@ package com.topic.controller;
 import com.topic.dto.api.request.BoardCreateRequest;
 import com.topic.dto.api.response.*;
 import com.topic.service.BoardService;
-import com.topic.service.dto.CreateBoardDto;
-import com.topic.service.dto.PaginatedBoardDto;
-import com.topic.service.dto.BoardDto;
+import com.topic.service.dto.*;
 import com.topic.util.annotations.Logging;
-import com.topic.util.exeptions.NotImplementedException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/thread")
@@ -32,11 +28,12 @@ public class BoardController {
     public EntityIdResponse createThread(
             @Valid @RequestBody BoardCreateRequest request
     ) {
-        BoardDto board = boardService.createBoard(Util.mapToCreateThreadDTO(request));
+        BoardDto board = boardService.createBoard(BoardControllerUtil.mapToCreateThreadDTO(request));
         return new EntityIdResponse(board.id());
     }
 
-    @GetMapping("/{id}")
+    @Deprecated // какой deprecated? - проекту 2 дня
+    @GetMapping("/{id}/old")
     @Logging
     public BoardMainInfoResponse getBoard(
             @PathVariable Long id
@@ -45,6 +42,16 @@ public class BoardController {
         return new BoardMainInfoResponse(board.id(), board.title());
     }
 
+    @GetMapping("/{id}")
+    @Logging
+    public BoardFullInfoResponse getBoardFullInfo(
+            @PathVariable Long id
+    ) {
+        BoardWithAllPublicationsDto data = boardService.getBoardWithAllPublications(id);
+        return BoardControllerUtil.mapToBoardFullInfoResponse(data);
+    }
+
+
     @GetMapping("")
     @Logging
     public BoardPaginatedResponse getBoardsPaginated(
@@ -52,12 +59,13 @@ public class BoardController {
         @RequestParam(defaultValue = "20") int pageSize
     ){
         PaginatedBoardDto paginatedBoards = boardService.getBoards(page, pageSize);
-        return Util.mapToBoardPaginatedResponse(paginatedBoards);
+        return BoardControllerUtil.mapToBoardPaginatedResponse(paginatedBoards);
     }
 
 }
 
-class Util {
+// todo: move in better place
+class BoardControllerUtil {
     public static CreateBoardDto mapToCreateThreadDTO(BoardCreateRequest data) {
         return new CreateBoardDto(data.title());
     }
@@ -72,5 +80,19 @@ class Util {
         return new BoardPaginatedResponse(
                 new PageResponse(data.currentPage(), data.pageSize(), data.totalPages()), res);
     }
+
+    // todo: it's too silly...
+    public static BoardFullInfoResponse mapToBoardFullInfoResponse(BoardWithAllPublicationsDto data){
+        return new BoardFullInfoResponse(
+                new BoardMainInfoResponse(data.board().id(), data.board().title()),
+                data.publications().publications().stream().map(BoardControllerUtil::mapToPublicationInfoResponse).toList()
+        );
+    }
+
+    public static PublicationInfoResponse mapToPublicationInfoResponse(PublicationDto data){
+        return new PublicationInfoResponse(data.id(), data.author(), data.content());
+    }
+
+
 
 }

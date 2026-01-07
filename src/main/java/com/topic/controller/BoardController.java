@@ -43,6 +43,7 @@ public class BoardController {
     }
 
     @GetMapping("")
+
     public BoardPaginatedResponse getBoardsPaginated(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int pageSize

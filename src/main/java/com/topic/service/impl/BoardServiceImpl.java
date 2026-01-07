@@ -57,7 +57,13 @@ public class BoardServiceImpl implements BoardService {
 
 class Util {
     static BoardDto mapToBoardDto(Board data) {
-        throw new NotImplementedException("");
+        return new BoardDto(
+                data.getId(),
+                data.getTitle(),
+                data.getAuthor(),
+                data.getParent(),
+                data.getCreatedAt()
+        );
     }
 
     static PaginatedBoardDto mapToPaginatedBoardDto(Page<Board> data, int page, int pageSize) {

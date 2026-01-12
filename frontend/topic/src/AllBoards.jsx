@@ -60,14 +60,13 @@ function AllBoards() {
               &nbsp; <strong>Size:</strong> {data.pageInfo?.pageSize}
             </div>
 
-            <ul className="flex flex-col gap-4">
+            <ul className="flex flex-col gap-1">
               {Array.isArray(data.threads) && data.threads.length > 0 ? (
                 data.threads.map((t) => (
-                  <li key={t.id} className="w-full bg-white border border-gray-100 rounded-lg p-4 shadow-sm">
-                    <div className="text-lg font-semibold text-gray-900 mb-2">
+                  <li key={t.id} className="w-full bg-white border border-gray-100 rounded-sm p-2 shadow-sm">
+                    <div className="text-lg font-semibold text-gray-900 mb-1">
                       <Link to={`/board/${t.id}`} className="hover:text-blue-600">{t.title}</Link>
                     </div>
-                    <div className="text-sm text-gray-500">id: {t.id}</div>
                   </li>
                 ))
               ) : (

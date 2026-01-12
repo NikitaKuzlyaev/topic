@@ -75,20 +75,25 @@ function Board() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 py-24 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto w-full">
+    <main className="min-h-screen bg-orange-50 py-16 px-2 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full">
         {loading && <p className="text-gray-600">Loading...</p>}
         {error && <p className="text-red-600">Error: {error}</p>}
 
         {data && (
-          <section className="bg-white border border-gray-100 rounded-lg p-6">
-            <h2 className="text-2xl font-semibold mb-2">{data.boardInfo?.title || `Board ${id}`}</h2>
-            <div className="text-sm text-gray-500 mb-4">id: {data.boardInfo?.id}</div>
+          <section className="bg-white border border-gray-100 rounded-sm p-2">
+            <h2 className="text-2xl font-semibold mb-2 text-gray-700">{data.boardInfo?.title || `Board ${id}`}</h2>
 
-            <div className="space-y-4">
+            <div className="mt-4">
+              <button className="inline-block bg-blue-600 text-white px-3 py-1 mb-4 rounded-sm font-medium hover:bg-blue-500" onClick={() => setShowForm((s) => !s)}>
+                {showForm ? 'Cancel' : 'Add Publication'}
+              </button>
+            </div>
+
+            <div className="space-y-0">
               {Array.isArray(data.publications) && data.publications.length > 0 ? (
                 data.publications.map((pub) => (
-                  <article key={pub.id} className="bg-white border border-gray-100 p-4 rounded-md shadow-sm">
+                  <article key={pub.id} className="bg-white border border-gray-100 p-4 rounded-sm">
                     <div className="flex items-center justify-between mb-2">
                       <span className="font-semibold text-gray-900">{pub.author || 'anonymous'}</span>
                       <span className="text-gray-500 text-sm">#{pub.id}</span>
@@ -99,12 +104,6 @@ function Board() {
               ) : (
                 <div className="text-gray-500">No publications</div>
               )}
-            </div>
-
-            <div className="mt-4">
-              <button className="inline-block bg-blue-600 text-white px-3 py-1 rounded-md font-medium hover:bg-blue-500" onClick={() => setShowForm((s) => !s)}>
-                {showForm ? 'Cancel' : 'Add Publication'}
-              </button>
             </div>
 
             {showForm && (

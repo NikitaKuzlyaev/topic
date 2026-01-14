@@ -12,7 +12,7 @@ function Board() {
     let mounted = true;
     setLoading(true);
     try {
-      const url = getApiUrl(`/api/thread/${id}`);
+      const url = getApiUrl(`/api/board/${id}`);
       const response = await fetch(url, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },

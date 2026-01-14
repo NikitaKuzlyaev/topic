@@ -5,7 +5,7 @@ function Home() {
 
     const handleGetThread = async () => {
         try {
-            const url = getApiUrl('/api/thread');
+            const url = getApiUrl('/api/board');
 
             const response = await fetch(url, {
                 method: 'GET',
@@ -48,7 +48,7 @@ function Home() {
                     onClick={handleGetThread}
                     className="inline-block bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-500"
                 >
-                    [GET] /api/thread
+                    [GET] /api/board
                 </button>
 
                 <button

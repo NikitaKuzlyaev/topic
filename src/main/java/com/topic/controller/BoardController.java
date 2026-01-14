@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/thread")
+@RequestMapping("/api/board")
 public class BoardController {
 
     private final BoardService boardService;
@@ -25,10 +25,10 @@ public class BoardController {
 
     @PostMapping()
     @Logging
-    public EntityIdResponse createThread(
+    public EntityIdResponse createBoard(
             @Valid @RequestBody BoardCreateRequest request
     ) {
-        BoardDto board = boardService.createBoard(BoardControllerUtil.mapToCreateThreadDTO(request));
+        BoardDto board = boardService.createBoard(BoardControllerUtil.mapToCreateBoardDTO(request));
         return new EntityIdResponse(board.id());
     }
 
@@ -66,7 +66,7 @@ public class BoardController {
 
 // todo: move in better place
 class BoardControllerUtil {
-    public static CreateBoardDto mapToCreateThreadDTO(BoardCreateRequest data) {
+    public static CreateBoardDto mapToCreateBoardDTO(BoardCreateRequest data) {
         return new CreateBoardDto(data.title());
     }
 

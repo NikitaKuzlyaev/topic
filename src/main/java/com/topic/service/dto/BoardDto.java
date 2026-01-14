@@ -1,7 +1,7 @@
 package com.topic.service.dto;
 
-import com.topic.entity.Board;
-import com.topic.entity.User;
+import com.topic.entity.main.Board;
+import com.topic.entity.main.User;
 
 import java.time.LocalDateTime;
 

@@ -1,8 +1,8 @@
 package com.topic.service.impl;
 
-import com.topic.entity.Board;
-import com.topic.entity.Publication;
-import com.topic.entity.User;
+import com.topic.entity.main.Board;
+import com.topic.entity.main.Publication;
+import com.topic.entity.main.User;
 import com.topic.repository.BoardRepository;
 import com.topic.repository.PublicationRepository;
 import com.topic.repository.UserRepository;

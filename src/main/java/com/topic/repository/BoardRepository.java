@@ -1,6 +1,6 @@
 package com.topic.repository;
 
-import com.topic.entity.Board;
+import com.topic.entity.main.Board;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

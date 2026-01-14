@@ -1,4 +1,4 @@
-package com.topic.entity;
+package com.topic.entity.main;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.*;
@@ -23,10 +23,7 @@ public class User {
     private String login;
 
     @Column(nullable = false)
-    private String hashedPassword;
-
-    @Column(nullable = false)
-    private String salt;
+    private String hashedPasswordAndSalt;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

@@ -6,5 +6,9 @@ import jakarta.validation.constraints.Positive;
 
 public record CreatePublicationDto(
         @NotBlank String content,
-        @NotNull @Positive Long boardId
+
+        @NotNull @Positive Long boardId,
+
+        @Positive Long userId
+
 ) {}

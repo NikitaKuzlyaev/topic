@@ -49,8 +49,7 @@ public class BoardServiceImpl implements BoardService {
 
         board.setTitle(data.title());
 
-        // TODO: используется тестовый пользователь как автор ЛЮБЫХ досок
-        Optional<User> author = userRepository.findById(1L);
+        Optional<User> author = userRepository.findById(data.userId());
         if (author.isEmpty()){
             throw new RuntimeException("");
         }

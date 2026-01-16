@@ -43,8 +43,7 @@ public class PublicationServiceImpl implements PublicationService {
 
         publication.setContent(data.content());
 
-        // TODO: используется тестовый пользователь как автор ЛЮБЫХ досок
-        Optional<User> author = userRepository.findById(1L);
+        Optional<User> author = userRepository.findById(data.userId());
         Optional<Board> board = boardRepository.findById(data.boardId());
 
         if (author.isEmpty() || board.isEmpty()){

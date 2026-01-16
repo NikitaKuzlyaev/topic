@@ -9,7 +9,10 @@ import com.topic.service.BoardService;
 import com.topic.service.dto.BoardDto;
 import com.topic.service.dto.BoardWithAllPublicationsDto;
 import com.topic.service.dto.PaginatedBoardDto;
+import com.topic.service.dto.UserDto;
+import com.topic.util.annotations.Authenticated;
 import com.topic.util.annotations.Logging;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,11 +30,15 @@ public class BoardController {
 
 
     @PostMapping()
+    @Authenticated
     @Logging
     public EntityIdResponse createBoard(
-            @Valid @RequestBody BoardCreateRequest request
+            @Valid @RequestBody BoardCreateRequest request,
+            HttpServletRequest req
     ) {
-        BoardDto board = boardService.createBoard(BoardControllerHelper.mapToCreateBoardDTO(request));
+        UserDto userDto = (UserDto) req.getAttribute("currentUser");
+
+        BoardDto board = boardService.createBoard(BoardControllerHelper.mapToCreateBoardDTO(request, userDto.id()));
         return new EntityIdResponse(board.id());
     }
 

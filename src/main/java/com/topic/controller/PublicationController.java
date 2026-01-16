@@ -6,6 +6,9 @@ import com.topic.dto.api.response.EntityIdResponse;
 import com.topic.dto.api.response.PublicationInfoResponse;
 import com.topic.service.PublicationService;
 import com.topic.service.dto.PublicationDto;
+import com.topic.service.dto.UserDto;
+import com.topic.util.annotations.Authenticated;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,11 +25,15 @@ public class PublicationController {
     }
 
     @PostMapping()
+    @Authenticated
     public EntityIdResponse createPublication(
-            @Valid @RequestBody PublicationCreateRequest request
+            @Valid @RequestBody PublicationCreateRequest request,
+            HttpServletRequest req
     ) {
+        UserDto userDto = (UserDto) req.getAttribute("currentUser");
+
         PublicationDto publication = publicationService.createPublication(
-                PublicationControllerHelper.mapToCreatePublicationDto(request)
+                PublicationControllerHelper.mapToCreatePublicationDto(request, userDto.id())
         );
 
         return new EntityIdResponse(publication.id());

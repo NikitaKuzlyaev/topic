@@ -7,18 +7,17 @@ import com.topic.dto.api.response.AuthResponse;
 import com.topic.dto.api.response.UserDataResponse;
 import com.topic.service.AuthenticationService;
 import com.topic.service.JwtTokenService;
-import com.topic.service.UserService;
 import com.topic.service.dto.UserDto;
+import com.topic.util.annotations.Authenticated;
 import com.topic.util.annotations.Logging;
 import com.topic.util.exeptions.EntityDoesNotExistsException;
 import com.topic.util.exeptions.PasswordValidationException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -27,16 +26,13 @@ public class AuthController {
 
     private final AuthenticationService authenticationService;
     private final JwtTokenService jwtTokenService;
-    private final UserService userService;
 
     public AuthController(
             AuthenticationService authenticationService,
-            JwtTokenService jwtTokenService,
-            UserService userService
+            JwtTokenService jwtTokenService
     ) {
         this.authenticationService = authenticationService;
         this.jwtTokenService = jwtTokenService;
-        this.userService = userService;
     }
 
     // todo: я не очень понял как я тут решил использовать AuthResponse вместе с токенами (хотя они не нужны)
@@ -79,31 +75,17 @@ public class AuthController {
     }
 
     @GetMapping("/me")
+    @Authenticated
     @Logging
     public ResponseEntity<UserDataResponse> me(
-            @RequestHeader(value = "Authorization", required = false) String authHeader
+            HttpServletRequest request
     ) {
-        try{
-            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-            }
-            String token = authHeader.substring(7); // удаляем "Bearer "
+        UserDto userDto = (UserDto) request.getAttribute("currentUser");
 
-            String login = jwtTokenService.getUsernameFromToken(token);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new UserDataResponse(userDto.id(), userDto.name(), userDto.login()));
 
-            Optional<UserDto> data = userService.getUserByLogin(login);
-            if (data.isEmpty()){
-                throw new RuntimeException(); // todo: пока так, потом придумать как лучше
-            }
-            UserDto userDto = data.get();
-
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(new UserDataResponse(userDto.id(), userDto.name(), userDto.login()));
-
-        } catch (Exception e){ // todo: указать конкретные исключения
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
     }
 
     @PostMapping("/refresh")

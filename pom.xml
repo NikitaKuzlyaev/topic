@@ -143,6 +143,11 @@ Transitive yawkat LZ4 Java has a possible information leak in Java safe decompre
             <scope>runtime</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

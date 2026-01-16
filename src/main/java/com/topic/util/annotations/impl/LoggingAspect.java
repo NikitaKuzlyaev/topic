@@ -1,4 +1,4 @@
-package com.topic.util.annotations;
+package com.topic.util.annotations.impl;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Aspect
-public class LoggingImpl {
+public class LoggingAspect {
 
     @Around("@annotation(com.topic.util.annotations.Logging)")
     public Object logMethodExecution(ProceedingJoinPoint joinPoint) throws Throwable {

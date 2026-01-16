@@ -154,7 +154,7 @@ function RegistrationPage() {
           <p className="text-gray-600">
             Already have an account?{' '}
             <Link 
-              to="/login" 
+              to="/auth/login" 
               className="font-medium text-blue-600 hover:text-blue-500 hover:underline"
             >
               Sign In

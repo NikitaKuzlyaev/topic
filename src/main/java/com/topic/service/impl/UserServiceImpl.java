@@ -6,8 +6,6 @@ import com.topic.service.UserService;
 import com.topic.service.dto.UserCreateDto;
 import com.topic.service.dto.UserDto;
 import com.topic.util.annotations.Logging;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -43,8 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Logging
-    public Optional<UserDto> getUserByLogin(@NotNull @NotBlank String login) { // todo: возможно NotBlank включает NotNull - проверить и поменять
-        log.info(login); //todo: remove after debug
+    public Optional<UserDto> getUserByLogin(String login) {
         Optional<User> data = userRepository.findByLogin(login);
         return packToOptionalResponse(data);
     }

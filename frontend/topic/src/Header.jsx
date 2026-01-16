@@ -15,6 +15,7 @@ function Header() {
             <Link to="/board/create" className="text-sm font-medium text-gray-200 hover:text-white">Create</Link>
             <Link to="/auth/register" className="text-sm font-medium text-gray-200 hover:text-white">Register</Link>
             <Link to="/auth/login" className="text-sm font-medium text-gray-200 hover:text-white">Login</Link>
+            <Link to="/auth/secure-page" className="text-sm font-medium text-gray-200 hover:text-white">SecurePage</Link>
           </div>
         </nav>
       </div>

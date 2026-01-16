@@ -5,6 +5,7 @@ import Board from './Board';
 import CreateBoard from './CreateBoard';
 import Register from './Register';
 import Login from './Login';
+import SecurePage from './SecurePage';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -21,6 +22,7 @@ function App() {
             <Route path="/board/create" element={<CreateBoard />} />
             <Route path="/auth/register" element={<Register/>} />
             <Route path="/auth/login" element={<Login/>} />
+            <Route path="/auth/secure-page" element={<SecurePage/>} />
           </Routes>
         </div>
       </div>

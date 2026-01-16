@@ -1,9 +1,10 @@
 package com.topic.controller;
 
+import com.topic.controller.helpers.PublicationControllerHelper;
 import com.topic.dto.api.request.PublicationCreateRequest;
-import com.topic.dto.api.response.*;
+import com.topic.dto.api.response.EntityIdResponse;
+import com.topic.dto.api.response.PublicationInfoResponse;
 import com.topic.service.PublicationService;
-import com.topic.service.dto.CreatePublicationDto;
 import com.topic.service.dto.PublicationDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class PublicationController {
             @Valid @RequestBody PublicationCreateRequest request
     ) {
         PublicationDto publication = publicationService.createPublication(
-                PublicationUtil.mapToCreatePublicationDto(request)
+                PublicationControllerHelper.mapToCreatePublicationDto(request)
         );
 
         return new EntityIdResponse(publication.id());
@@ -39,11 +40,4 @@ public class PublicationController {
         return new PublicationInfoResponse(123L, "Author", "Content");
     }
 
-}
-
-// todo: move in better place
-class PublicationUtil {
-    public static CreatePublicationDto mapToCreatePublicationDto(PublicationCreateRequest data) {
-        return new CreatePublicationDto(data.content(), data.boardId());
-    }
 }

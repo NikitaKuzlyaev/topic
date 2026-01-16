@@ -16,14 +16,6 @@ public interface AuthenticationService {
 
     void logoutUser();
 
-    void generateAccessToken();
-
-    void generateRefreshToken();
-
-    void validateAccessToken();
-
-    void validateRefreshToken();
-
     void blockToken();
 
 }

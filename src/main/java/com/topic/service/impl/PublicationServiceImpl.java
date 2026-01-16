@@ -9,6 +9,7 @@ import com.topic.repository.UserRepository;
 import com.topic.service.PublicationService;
 import com.topic.service.dto.CreatePublicationDto;
 import com.topic.service.dto.PublicationDto;
+import com.topic.service.helpers.PublicationServiceImplHelper;
 import jakarta.persistence.EntityExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,7 +55,7 @@ public class PublicationServiceImpl implements PublicationService {
         publication.setBoard(board.get());
 
         var res = publicationRepository.save(publication);
-        return PublicationServiceUtil.mapToPublicationDto(res);
+        return PublicationServiceImplHelper.mapToPublicationDto(res);
     }
 
     @Override
@@ -63,13 +64,6 @@ public class PublicationServiceImpl implements PublicationService {
         if (publication.isEmpty()) {
             throw new EntityExistsException();
         }
-        return PublicationServiceUtil.mapToPublicationDto(publication.get());
-    }
-}
-
-
-class PublicationServiceUtil {
-    public static PublicationDto mapToPublicationDto(Publication data) {
-        return new PublicationDto(data.getId(), data.getAuthor().getUsername(), data.getContent());
+        return PublicationServiceImplHelper.mapToPublicationDto(publication.get());
     }
 }

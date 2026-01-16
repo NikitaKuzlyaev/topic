@@ -52,7 +52,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     @Logging
     public UserDto loginUser(LoginRequest request) {
-        log.info("Login at loginUser in AuthenticationServiceImpl = " + request.login()); //todo: remove after debug
 
         Optional<UserDto> data = userService.getUserByLogin(request.login());
         if (data.isEmpty()){
@@ -79,31 +78,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public void generateAccessToken() {
-        throw new NotImplementedException("");
-    }
-
-    @Override
-    public void generateRefreshToken() {
-        throw new NotImplementedException("");
-    }
-
-    @Override
-    public void validateAccessToken() {
-        throw new NotImplementedException("");
-    }
-
-    @Override
-    public void validateRefreshToken() {
-        throw new NotImplementedException("");
-    }
-
-    @Override
     public void blockToken() {
         throw new NotImplementedException("");
-    }
-
-    private String generatePasswordHash(String password) {
-        return passwordEncoder.encode(password);
     }
 }

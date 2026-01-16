@@ -41,11 +41,11 @@ function CreateBoard() {
   return (
     <main className="min-h-screen bg-gray-50 py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto w-full">
-        <h2 className="text-2xl font-semibold mb-4">Create Board</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-gray-900">Create Board</h2>
 
         <form className="bg-white border border-gray-100 p-6 rounded-md" onSubmit={handleSubmit}>
           <label className="block mb-4">
-            <div className="font-medium mb-2">Title</div>
+            <div className="font-medium mb-2 text-gray-900">Title</div>
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}

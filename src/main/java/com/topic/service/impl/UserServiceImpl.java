@@ -5,6 +5,7 @@ import com.topic.repository.UserRepository;
 import com.topic.service.UserService;
 import com.topic.service.dto.UserCreateDto;
 import com.topic.service.dto.UserDto;
+import com.topic.service.helpers.UserServiceImplHelper;
 import com.topic.util.annotations.Logging;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService {
         user.setHashedPasswordAndSalt(data.hashedPasswordAndSalt());
 
         var res = userRepository.save(user);
-        return UserServiceImplUtil.mapToUserDto(res);
+        return UserServiceImplHelper.mapToUserDto(res);
     }
 
     @Override
@@ -55,15 +56,4 @@ public class UserServiceImpl implements UserService {
                 user.getId(), user.getUsername(), user.getLogin(), user.getHashedPasswordAndSalt())
         );
     }
-}
-
-// todo: перенести
-class UserServiceImplUtil{
-
-    static UserDto mapToUserDto(User data){
-        return new UserDto(
-                data.getId(), data.getUsername(), data.getLogin(), data.getHashedPasswordAndSalt()
-        );
-    }
-
 }

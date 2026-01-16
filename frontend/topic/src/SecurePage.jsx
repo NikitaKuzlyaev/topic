@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getApiUrl } from './config';
+import HttpClient from './services/HttpClient';
+import AuthService from './services/AuthService';
 
 function SecurePage() {
   const [userData, setUserData] = useState(null);
@@ -9,10 +11,10 @@ function SecurePage() {
   const [authInfo, setAuthInfo] = useState({});
   const navigate = useNavigate();
 
-  const getAccessToken = () => localStorage.getItem('accessToken');
-  const getRefreshToken = () => localStorage.getItem('refreshToken');
-  const getUserId = () => localStorage.getItem('userId');
-  const getUserName = () => localStorage.getItem('userName');
+  const getAccessToken = AuthService.getAccessToken;
+  const getRefreshToken = AuthService.getRefreshToken;
+  const getUserId = AuthService.getUserId;
+  const getUserName = AuthService.getUserName;
 
   useEffect(() => {
     fetchUserData();
@@ -31,38 +33,8 @@ function SecurePage() {
     setError(null);
     
     try {
-      const token = getAccessToken();
-      
-      if (!token) {
-        setError('No access token found. Please login first.');
-        setLoading(false);
-        return;
-      }
-
       const url = getApiUrl('/api/auth/me');
-      console.log('Fetching user data from:', url);
-      console.log('Using token:', token ? `${token.substring(0, 20)}...` : 'none');
-
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Accept': 'application/json'
-        }
-      });
-
-      console.log('Response status:', response.status);
-      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          throw new Error('Unauthorized - Invalid or expired token');
-        }
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log('User data received:', data);
+      const data = await HttpClient.get(url);
       setUserData(data);
       
     } catch (err) {
@@ -74,12 +46,9 @@ function SecurePage() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('userName');
+    AuthService.clearAuth();
     
-    navigate('/login');
+    navigate('/auth/login');
   };
 
   const handleRefresh = () => {
@@ -87,7 +56,7 @@ function SecurePage() {
   };
 
   const handleLoginRedirect = () => {
-    navigate('/login');
+    navigate('/auth/login');
   };
 
   const copyToClipboard = (text) => {

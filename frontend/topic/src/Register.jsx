@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { getApiUrl } from './config';
+import HttpClient from './services/HttpClient';
 
 function RegistrationPage() {
   const [formData, setFormData] = useState({
@@ -48,25 +49,8 @@ function RegistrationPage() {
     
     try {
       const url = getApiUrl('/api/auth/register');
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: formData.username.trim(),
-          login: formData.login.trim(),
-          password: formData.password
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      
+      await HttpClient.post(url, { username: formData.username.trim(), login: formData.login.trim(), password: formData.password });
       navigate('/login');
-      
     } catch (err) {
       setError(err.message || 'Registration failed');
     } finally {

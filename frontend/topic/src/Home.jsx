@@ -1,5 +1,6 @@
 import React from 'react';
 import config, { getApiUrl } from './config';
+import HttpClient from './services/HttpClient';
 
 function Home() {
 
@@ -7,16 +8,7 @@ function Home() {
         try {
             const url = getApiUrl('/api/board');
 
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
+            const data = await HttpClient.get(url);
             
         } catch (error) {
         }
@@ -26,16 +18,7 @@ function Home() {
         try {
             const url = getApiUrl('/api/async/test');
 
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
+            const data = await HttpClient.get(url);
             
         } catch (error) {
         }

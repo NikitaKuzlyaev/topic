@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import config, { getApiUrl } from './config';
+import HttpClient from './services/HttpClient';
 
 function AllBoards() {
   const [loading, setLoading] = useState(true);
@@ -14,16 +15,7 @@ function AllBoards() {
       setLoading(true);
       try {
         const url = getApiUrl('/api/board');
-        const response = await fetch(url, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const json = await response.json();
+        const json = await HttpClient.get(url);
         if (mounted) {
           setData(json);
           setError(null);

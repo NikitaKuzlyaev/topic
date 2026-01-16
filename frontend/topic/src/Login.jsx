@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { getApiUrl } from './config';
+import HttpClient from './services/HttpClient';
 
 function LoginPage() {
   const [formData, setFormData] = useState({
@@ -45,30 +46,18 @@ function LoginPage() {
     
     try {
       const url = getApiUrl('/api/auth/login');
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          login: formData.login.trim(),
-          password: formData.password
-        }),
-      });
-
-      if (response.status === 401) {
-        throw new Error('Invalid login or password');
+      let authData;
+      try {
+        authData = await HttpClient.post(url, { login: formData.login.trim(), password: formData.password });
+      } catch (e) {
+        if (e && e.status === 401) throw new Error('Invalid login or password');
+        throw e;
       }
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-      }
-
-      const authData = await response.json();
-      
       saveAuthData(authData);
-      
+
       navigate('/');
-      
+
     } catch (err) {
       setError(err.message || 'Login failed');
     } finally {

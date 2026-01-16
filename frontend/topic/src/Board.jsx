@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import config, { getApiUrl } from './config';
+import HttpClient from './services/HttpClient';
 
 function Board() {
   const { id } = useParams();
@@ -13,12 +14,7 @@ function Board() {
     setLoading(true);
     try {
       const url = getApiUrl(`/api/board/${id}`);
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      });
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      const json = await response.json();
+      const json = await HttpClient.get(url);
       if (mounted) {
         setData(json);
         setError(null);
@@ -57,12 +53,7 @@ function Board() {
     setPubLoading(true);
     try {
       const url = getApiUrl('/api/publication');
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: content.trim(), boardId: Number(id) }),
-      });
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      await HttpClient.post(url, { content: content.trim(), boardId: Number(id) });
       // assume success - refresh board
       setContent('');
       setShowForm(false);

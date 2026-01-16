@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import config, { getApiUrl } from './config';
+import HttpClient from './services/HttpClient';
 
 function CreateBoard() {
   const [title, setTitle] = useState('');
@@ -18,13 +19,7 @@ function CreateBoard() {
     setLoading(true);
     try {
       const url = getApiUrl('/api/board');
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: title.trim() }),
-      });
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      const data = await response.json();
+      const data = await HttpClient.post(url, { title: title.trim() });
       const newId = data?.id;
       if (newId) {
         navigate(`/board/${newId}`);

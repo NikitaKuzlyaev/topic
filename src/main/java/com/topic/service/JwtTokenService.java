@@ -6,9 +6,11 @@ import java.util.Map;
 
 public interface JwtTokenService {
 
-    String generateAccessToken(String username,  Map<String, Object> claims);
+    String generateAccessToken(String login,  Map<String, Object> claims);
 
-    String generateRefreshToken(String username);
+    String generateAccessToken(String login);
+
+    String generateRefreshToken(String login);
 
     Claims validateAndParseToken(String token);
 

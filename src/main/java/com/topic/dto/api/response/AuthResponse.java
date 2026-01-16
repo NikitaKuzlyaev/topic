@@ -1,7 +1,7 @@
 package com.topic.dto.api.response;
 
 import com.topic.dto.api.TokenPair;
-import com.topic.entity.main.User;
+import com.topic.service.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -13,9 +13,9 @@ public class AuthResponse {
     private String accessToken;
     private String refreshToken;
 
-    public AuthResponse(User user, TokenPair tokens){
-        this.userId = user.getId();
-        this.name = user.getUsername();
+    public AuthResponse(UserDto userDto, TokenPair tokens){
+        this.userId = userDto.id();
+        this.name = userDto.name();
         this.accessToken = tokens.accessToken();
         this.refreshToken = tokens.refreshToken();
     }

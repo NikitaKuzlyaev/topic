@@ -6,6 +6,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@Service
 public class JwtTokenServiceImpl implements JwtTokenService {
 
     private final JwtConfig jwtConfig;
@@ -40,6 +42,11 @@ public class JwtTokenServiceImpl implements JwtTokenService {
                 .setId(UUID.randomUUID().toString())
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    @Override
+    public String generateAccessToken(String username) {
+        return generateAccessToken(username, new HashMap<>());
     }
 
     @Override

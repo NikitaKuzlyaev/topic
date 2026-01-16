@@ -13,6 +13,8 @@ function Header() {
           <div className="flex items-center gap-4">
             <Link to="/all-boards" className="text-sm font-medium text-gray-200 hover:text-white">All Boards</Link>
             <Link to="/board/create" className="text-sm font-medium text-gray-200 hover:text-white">Create</Link>
+            <Link to="/auth/register" className="text-sm font-medium text-gray-200 hover:text-white">Register</Link>
+            <Link to="/auth/login" className="text-sm font-medium text-gray-200 hover:text-white">Login</Link>
           </div>
         </nav>
       </div>

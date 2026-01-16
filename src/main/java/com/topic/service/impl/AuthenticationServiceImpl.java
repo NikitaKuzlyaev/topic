@@ -1,12 +1,17 @@
 package com.topic.service.impl;
 
+import com.topic.dto.api.request.LoginRequest;
 import com.topic.dto.api.request.RegisterRequest;
 import com.topic.service.AuthenticationService;
 import com.topic.service.UserService;
 import com.topic.service.dto.UserCreateDto;
 import com.topic.service.dto.UserDto;
-import com.topic.util.exeptions.EntityAlreadyExists;
+import com.topic.util.annotations.Logging;
+import com.topic.util.exeptions.EntityAlreadyExistsException;
+import com.topic.util.exeptions.EntityDoesNotExistsException;
 import com.topic.util.exeptions.NotImplementedException;
+import com.topic.util.exeptions.PasswordValidationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserService userService;
@@ -27,18 +33,39 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
+    @Logging
     public UserDto registerUser(RegisterRequest request) {
         Optional<UserDto> data = userService.getUserByLogin(request.login());
         if (data.isPresent()){
-            throw new EntityAlreadyExists("");
+            throw new EntityAlreadyExistsException("User with such login already exists");
         }
 
         String passwordWithSaltHash = passwordEncoder.encode(request.password());
 
         UserCreateDto userCreateDto =  new UserCreateDto(
-                request.name(), request.login(), passwordWithSaltHash
+                request.username(), request.login(), passwordWithSaltHash
         );
+
         return userService.createUser(userCreateDto);
+    }
+
+    @Override
+    @Logging
+    public UserDto loginUser(LoginRequest request) {
+        log.info("Login at loginUser in AuthenticationServiceImpl = " + request.login()); //todo: remove after debug
+
+        Optional<UserDto> data = userService.getUserByLogin(request.login());
+        if (data.isEmpty()){
+            throw new EntityDoesNotExistsException("User with such login doesn't exists");
+        }
+
+        UserDto userDto = data.get();
+
+        if (!verifyPassword(request.password(), userDto.hashedPassword())){
+            throw new PasswordValidationException("Wrong password for user with such login");
+        }
+
+        return userDto;
     }
 
     @Override

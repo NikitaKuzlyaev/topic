@@ -2,8 +2,7 @@ package com.topic.dto.api.request;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record RegisterRequest(
-        @NotBlank String username,
+public record LoginRequest(
         @NotBlank String login,
         @NotBlank String password
 ) { }

@@ -5,11 +5,16 @@ import com.topic.repository.UserRepository;
 import com.topic.service.UserService;
 import com.topic.service.dto.UserCreateDto;
 import com.topic.service.dto.UserDto;
+import com.topic.util.annotations.Logging;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -37,7 +42,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserDto> getUserByLogin(String login) {
+    @Logging
+    public Optional<UserDto> getUserByLogin(@NotNull @NotBlank String login) { // todo: возможно NotBlank включает NotNull - проверить и поменять
+        log.info(login); //todo: remove after debug
         Optional<User> data = userRepository.findByLogin(login);
         return packToOptionalResponse(data);
     }
@@ -48,7 +55,7 @@ public class UserServiceImpl implements UserService {
         }
         User user = data.get();
         return Optional.of(new UserDto(
-                user.getId(), user.getUsername(), user.getLogin())
+                user.getId(), user.getUsername(), user.getLogin(), user.getHashedPasswordAndSalt())
         );
     }
 }
@@ -58,7 +65,7 @@ class UserServiceImplUtil{
 
     static UserDto mapToUserDto(User data){
         return new UserDto(
-                data.getId(), data.getUsername(), data.getLogin()
+                data.getId(), data.getUsername(), data.getLogin(), data.getHashedPasswordAndSalt()
         );
     }
 

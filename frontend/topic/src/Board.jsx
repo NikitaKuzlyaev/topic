@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import CreateBoard from './CreateBoard';
 import config, { getApiUrl } from './config';
 import HttpClient from './services/HttpClient';
 
@@ -8,6 +9,18 @@ function Board() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
+
+  // Publication form state
+  const [showForm, setShowForm] = useState(false);
+  const [content, setContent] = useState('');
+  const [pubLoading, setPubLoading] = useState(false);
+  const [pubError, setPubError] = useState(null);
+
+  // Nested boards state
+  const [nestedBoards, setNestedBoards] = useState([]);
+  const [nestedLoading, setNestedLoading] = useState(false);
+  const [nestedError, setNestedError] = useState(null);
+  const [showCreateNested, setShowCreateNested] = useState(false);
 
   const fetchBoard = useCallback(async () => {
     let mounted = true;
@@ -29,15 +42,29 @@ function Board() {
     };
   }, [id]);
 
+  const fetchNestedBoards = useCallback(async () => {
+    if (!id) return;
+    setNestedLoading(true);
+    try {
+      const url = getApiUrl(`/api/board?parentId=${id}`);
+      const json = await HttpClient.get(url);
+      const list = Array.isArray(json) ? json : json.threads || json.items || [];
+      setNestedBoards(list);
+      setNestedError(null);
+    } catch (err) {
+      setNestedError(err.message || 'Fetch nested boards failed');
+    } finally {
+      setNestedLoading(false);
+    }
+  }, [id]);
+
   useEffect(() => {
     fetchBoard();
   }, [fetchBoard]);
 
-  // Publication form state
-  const [showForm, setShowForm] = useState(false);
-  const [content, setContent] = useState('');
-  const [pubLoading, setPubLoading] = useState(false);
-  const [pubError, setPubError] = useState(null);
+  useEffect(() => {
+    fetchNestedBoards();
+  }, [fetchNestedBoards]);
 
   const handleCreatePublication = async (e) => {
     e && e.preventDefault();
@@ -117,6 +144,40 @@ function Board() {
                 </div>
               </form>
             )}
+
+            {/* Nested boards list and create form */}
+            <div className="mt-6">
+              <h3 className="text-lg font-semibold mb-2 text-gray-700">Nested Boards</h3>
+              {nestedLoading && <div className="text-gray-600">Loading nested boards...</div>}
+              {nestedError && <div className="text-red-600">{nestedError}</div>}
+              {Array.isArray(nestedBoards) && nestedBoards.length > 0 ? (
+                <ul className="flex flex-col gap-2">
+                  {nestedBoards.map((b) => (
+                    <li key={b.id} className="w-full bg-white border border-gray-100 rounded-sm p-2 shadow-sm">
+                      <div className="text-lg font-semibold text-gray-900 mb-1">
+                        <Link to={`/board/${b.id}`} className="hover:text-blue-600">{b.title || `Board ${b.id}`}</Link>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="text-gray-500">No nested boards</div>
+              )}
+
+              {showCreateNested && (
+                <div className="mt-4">
+                  <CreateBoard boardId={id} inline onCreated={(newData) => {
+                    const created = newData && newData.id ? newData : null;
+                    if (created) {
+                      setNestedBoards((prev) => [created, ...(prev || [])]);
+                    } else {
+                      fetchNestedBoards();
+                    }
+                    setShowCreateNested(false);
+                  }} />
+                </div>
+              )}
+            </div>
           </section>
         )}
       </div>

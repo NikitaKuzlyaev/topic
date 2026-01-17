@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import config, { getApiUrl } from './config';
 import HttpClient from './services/HttpClient';
 
-function CreateBoard() {
+function CreateBoard({ boardId, onCreated, inline }) {
   const [title, setTitle] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -19,12 +19,17 @@ function CreateBoard() {
     setLoading(true);
     try {
       const url = getApiUrl('/api/board');
-      const data = await HttpClient.post(url, { title: title.trim() });
+      const payload = { title: title.trim() };
+      // If creating inside another board, include boardId in payload
+      if (boardId !== undefined && boardId !== null) payload.boardId = Number(boardId);
+      const data = await HttpClient.post(url, payload);
       const newId = data?.id;
-      if (newId) {
-        navigate(`/board/${newId}`);
+      if (onCreated) {
+        onCreated(data);
+        if (!inline && newId) navigate(`/board/${newId}`);
       } else {
-        navigate('/all-boards');
+        if (newId) navigate(`/board/${newId}`);
+        else navigate('/all-boards');
       }
     } catch (err) {
       setError(err.message || 'Create failed');

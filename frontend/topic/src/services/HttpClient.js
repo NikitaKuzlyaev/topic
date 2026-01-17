@@ -46,7 +46,7 @@ const HttpClient = {
   get: (url, opts = {}) => request(url, { ...opts, method: 'GET' }),
   post: (url, body, opts = {}) => request(url, { ...opts, method: 'POST', body }),
   put: (url, body, opts = {}) => request(url, { ...opts, method: 'PUT', body }),
-  del: (url, opts = {}) => request(url, { ...opts, method: 'DELETE' }),
+  delete: (url, opts = {}) => request(url, { ...opts, method: 'DELETE' }),
 };
 
 export default HttpClient;

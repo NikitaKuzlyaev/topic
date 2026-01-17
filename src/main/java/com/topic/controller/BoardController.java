@@ -83,10 +83,11 @@ public class BoardController {
     @GetMapping("")
     @Logging
     public BoardPaginatedResponse getBoardsPaginated(
+            @RequestParam(required = false) Long parentId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int pageSize
     ) {
-        PaginatedBoardDto paginatedBoards = boardService.getBoards(page, pageSize);
+        PaginatedBoardDto paginatedBoards = boardService.getBoards(page, pageSize, parentId);
         return BoardControllerHelper.mapToBoardPaginatedResponse(paginatedBoards);
     }
 }

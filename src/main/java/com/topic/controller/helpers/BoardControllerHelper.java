@@ -9,7 +9,7 @@ import java.util.List;
 
 public class BoardControllerHelper {
     public static CreateBoardDto mapToCreateBoardDTO(BoardCreateRequest data, Long userId) {
-        return new CreateBoardDto(data.title(), userId);
+        return new CreateBoardDto(data.title(), data.boardId(), userId);
     }
 
     public static BoardPaginatedResponse mapToBoardPaginatedResponse(PaginatedBoardDto data){

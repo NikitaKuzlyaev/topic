@@ -52,6 +52,9 @@ public class BoardServiceImpl implements BoardService {
 
         board.setTitle(data.title());
 
+        Optional<Board> parent = boardRepository.findById(data.parentId());
+        board.setParent(parent.orElse(null)); // Безопасно, потому что значение может быть null - это нормально
+
         Optional<User> author = userRepository.findById(data.userId());
         if (author.isEmpty()){
             throw new RuntimeException("");
@@ -75,7 +78,17 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public PaginatedBoardDto getBoards(int page, int pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
-        Page<Board> boardPage = boardRepository.findAll(pageable);
+//        Page<Board> boardPage = boardRepository.findAll(pageable);
+        Page<Board> boardPage = boardRepository.findAllWithoutParent(pageable);
+        return BoardServiceImplHelper.mapToPaginatedBoardDto(boardPage, page, pageSize);
+    }
+
+    @Override
+    public PaginatedBoardDto getBoards(int page, int pageSize, Long parentId) {
+        if (parentId == null) return getBoards(page, pageSize);
+
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<Board> boardPage = boardRepository.findAllWithParentId(pageable, parentId);
         return BoardServiceImplHelper.mapToPaginatedBoardDto(boardPage, page, pageSize);
     }
 

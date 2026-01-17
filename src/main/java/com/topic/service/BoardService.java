@@ -11,6 +11,8 @@ public interface BoardService {
 
     PaginatedBoardDto getBoards(int page, int pageSize);
 
+    PaginatedBoardDto getBoards(int page, int pageSize, Long parentId);
+
     BoardWithAllPublicationsDto getBoardWithAllPublications(Long boardId);
 
     void deleteBoard(DeleteBoardDto data);

@@ -2,10 +2,7 @@ package com.topic.controller.helpers;
 
 import com.topic.dto.api.request.BoardCreateRequest;
 import com.topic.dto.api.response.*;
-import com.topic.service.dto.BoardWithAllPublicationsDto;
-import com.topic.service.dto.CreateBoardDto;
-import com.topic.service.dto.PaginatedBoardDto;
-import com.topic.service.dto.PublicationDto;
+import com.topic.service.dto.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,4 +32,7 @@ public class BoardControllerHelper {
         return new PublicationInfoResponse(data.id(), data.author(), data.content());
     }
 
+    public static DeleteBoardDto mapToDeleteBoardDTO(Long boardId) {
+        return new DeleteBoardDto(boardId);
+    }
 }

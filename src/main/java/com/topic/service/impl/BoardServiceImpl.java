@@ -7,17 +7,17 @@ import com.topic.repository.BoardRepository;
 import com.topic.repository.PublicationRepository;
 import com.topic.repository.UserRepository;
 import com.topic.service.BoardService;
-import com.topic.service.dto.BoardDto;
-import com.topic.service.dto.BoardWithAllPublicationsDto;
-import com.topic.service.dto.CreateBoardDto;
-import com.topic.service.dto.PaginatedBoardDto;
+import com.topic.service.KafkaLoggingService;
+import com.topic.service.dto.*;
 import com.topic.service.helpers.BoardServiceImplHelper;
 import jakarta.persistence.EntityExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,20 +26,23 @@ import java.util.Optional;
 public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
-
     private final UserRepository userRepository;
-
     private final PublicationRepository publicationRepository;
+    private final KafkaLoggingService kafkaLoggingService;
 
     @Autowired
     public BoardServiceImpl(
             BoardRepository boardRepository,
             UserRepository userRepository,
-            PublicationRepository publicationRepository
+            PublicationRepository publicationRepository,
+
+            @Qualifier("KafkaLoggingServiceImpl")
+            KafkaLoggingService kafkaLoggingService
     ) {
         this.boardRepository = boardRepository;
         this.userRepository = userRepository;
         this.publicationRepository = publicationRepository;
+        this.kafkaLoggingService = kafkaLoggingService;
     }
 
     @Override
@@ -83,5 +86,13 @@ public class BoardServiceImpl implements BoardService {
         }
         List<Publication> publications = publicationRepository.findAllByBoardIdWithAuthor(boardId);
         return BoardServiceImplHelper.mapToBoardWithAllPublicationsDto(board.get(), publications);
+    }
+
+    @Override
+    @Transactional // todo: повесить то я повесил, а как оно устроено я пока не понимаю, но рекомендуют делать так. потом вернуться
+    public void deleteBoard(DeleteBoardDto data) {
+        boardRepository.deleteById(data.boardId());
+
+        kafkaLoggingService.makeLog("Удалена доска с id="+data.boardId());
     }
 }

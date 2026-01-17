@@ -92,6 +92,21 @@ function Board() {
     }
   };
 
+  const handleDeleteBoard = async () => {
+    if (!window.confirm('Are you sure you want to delete this board? This action cannot be undone.')) {
+      return;
+    }
+    
+    try {
+      const url = getApiUrl(`/api/board/${id}`);
+      await HttpClient.delete(url);
+      // После удаления перенаправляем на главную
+      window.location.href = '/';
+    } catch (err) {
+      setError(err.message || 'Failed to delete board');
+    }
+  };
+
   return (
     <main className="min-h-screen bg-orange-50 py-16 px-2 sm:px-6 lg:px-8">
       <div className="mx-auto w-full">
@@ -103,8 +118,20 @@ function Board() {
             <h2 className="text-2xl font-semibold mb-2 text-gray-700">{data.boardInfo?.title || `Board ${id}`}</h2>
 
             <div className="mt-4">
+              
               <button className="inline-block bg-blue-600 text-white px-3 py-1 mb-4 rounded-sm font-medium hover:bg-blue-500" onClick={() => setShowForm((s) => !s)}>
                 {showForm ? 'Cancel' : 'Add Publication'}
+              </button>
+
+              <button className="inline-block ml-2 bg-green-600 text-white px-3 py-1 mb-4 rounded-sm font-medium hover:bg-green-500" onClick={() => setShowCreateNested((s) => !s)}>
+                {showCreateNested ? 'Cancel' : '+ Create Nested Board'}
+              </button>
+
+              <button 
+                className="inline-block ml-2 bg-red-600 text-white px-3 py-1 mb-4 rounded-sm font-medium hover:bg-red-500"
+                onClick={handleDeleteBoard}
+              >
+                Delete Board
               </button>
             </div>
 

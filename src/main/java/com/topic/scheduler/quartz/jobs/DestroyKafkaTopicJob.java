@@ -27,7 +27,6 @@ public class DestroyKafkaTopicJob implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        // Теперь @Autowired должен работать
         kafkaProducerService.send(debugKafkaTopic.getName(), "aboba");
     }
 }

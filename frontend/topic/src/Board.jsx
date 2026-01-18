@@ -109,7 +109,7 @@ function Board() {
 
   return (
     <main className="min-h-screen bg-orange-50 py-16 px-2 sm:px-6 lg:px-8">
-      <div className="mx-auto w-full">
+      <div className="w-full">
         {loading && <p className="text-gray-600">Loading...</p>}
         {error && <p className="text-red-600">Error: {error}</p>}
 

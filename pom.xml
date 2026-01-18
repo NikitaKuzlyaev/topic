@@ -148,6 +148,11 @@ Transitive yawkat LZ4 Java has a possible information leak in Java safe decompre
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

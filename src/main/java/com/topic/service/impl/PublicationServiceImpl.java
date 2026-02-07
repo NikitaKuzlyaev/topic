@@ -11,7 +11,6 @@ import com.topic.service.dto.CreatePublicationDto;
 import com.topic.service.dto.PublicationDto;
 import com.topic.service.helpers.PublicationServiceImplHelper;
 import jakarta.persistence.EntityExistsException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,7 +24,7 @@ public class PublicationServiceImpl implements PublicationService {
 
     private final BoardRepository boardRepository;
 
-    @Autowired
+    //@Autowired
     public PublicationServiceImpl(
             PublicationRepository publicationRepository,
             UserRepository userRepository,

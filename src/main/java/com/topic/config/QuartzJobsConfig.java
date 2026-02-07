@@ -3,9 +3,9 @@ package com.topic.config;
 import com.topic.scheduler.quartz.jobs.DestroyKafkaTopicJob;
 import org.quartz.*;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
+// Убрал запуск - пока не надо
+//@Configuration
 public class QuartzJobsConfig {
 
     // todo. я понимаю, что это неправильное решение - просто хотелось быстро проверить, что оно работатет

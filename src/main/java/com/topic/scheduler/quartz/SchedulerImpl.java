@@ -8,11 +8,11 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import static org.quartz.JobBuilder.newJob;
 
-@Component
+//Убрал запуск - пока не надо
+// @Component
 public class SchedulerImpl {
 
     @Autowired

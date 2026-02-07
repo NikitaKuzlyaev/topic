@@ -11,7 +11,6 @@ import com.topic.service.KafkaLoggingService;
 import com.topic.service.dto.*;
 import com.topic.service.helpers.BoardServiceImplHelper;
 import jakarta.persistence.EntityExistsException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,7 +29,7 @@ public class BoardServiceImpl implements BoardService {
     private final PublicationRepository publicationRepository;
     private final KafkaLoggingService kafkaLoggingService;
 
-    @Autowired
+    //@Autowired не нужно - есть конструктор, повешаны @Component - подключится само
     public BoardServiceImpl(
             BoardRepository boardRepository,
             UserRepository userRepository,

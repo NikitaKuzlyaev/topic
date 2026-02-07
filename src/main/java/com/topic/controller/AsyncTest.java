@@ -2,7 +2,7 @@ package com.topic.controller;
 
 import com.topic.dto.api.response.MessageResponse;
 import com.topic.kafka.KafkaTopicInitializer;
-import com.topic.util.annotations.Logging;
+import com.topic.util.annotations.LoggingToSystemOut;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +29,7 @@ public class AsyncTest {
 
 
     @GetMapping("/test")
-    @Logging
+    @LoggingToSystemOut
     public MessageResponse processAsyncTask(){
         return new MessageResponse("Fail"); // заглушка
     }

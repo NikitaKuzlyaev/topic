@@ -10,6 +10,7 @@ import com.topic.service.JwtTokenService;
 import com.topic.service.dto.UserDto;
 import com.topic.util.annotations.Authenticated;
 import com.topic.util.annotations.Logging;
+import com.topic.util.annotations.LoggingToSystemOut;
 import com.topic.util.exeptions.EntityDoesNotExistsException;
 import com.topic.util.exeptions.PasswordValidationException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -55,6 +56,7 @@ public class AuthController {
 
     @PostMapping("/login")
     @Logging
+    @LoggingToSystemOut
     public ResponseEntity<AuthResponse> login(
             @Valid @RequestBody LoginRequest request
     ) {
@@ -77,6 +79,7 @@ public class AuthController {
     @GetMapping("/me")
     @Authenticated
     @Logging
+    @LoggingToSystemOut
     public ResponseEntity<UserDataResponse> me(
             HttpServletRequest request
     ) {

@@ -6,7 +6,7 @@ import com.topic.service.AuthenticationService;
 import com.topic.service.UserService;
 import com.topic.service.dto.UserCreateDto;
 import com.topic.service.dto.UserDto;
-import com.topic.util.annotations.Logging;
+import com.topic.util.annotations.LoggingToSystemOut;
 import com.topic.util.exeptions.EntityAlreadyExistsException;
 import com.topic.util.exeptions.EntityDoesNotExistsException;
 import com.topic.util.exeptions.NotImplementedException;
@@ -33,7 +33,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    @Logging
+    @LoggingToSystemOut
     public UserDto registerUser(RegisterRequest request) {
         Optional<UserDto> data = userService.getUserByLogin(request.login());
         if (data.isPresent()){
@@ -50,7 +50,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    @Logging
+    @LoggingToSystemOut
     public UserDto loginUser(LoginRequest request) {
 
         Optional<UserDto> data = userService.getUserByLogin(request.login());

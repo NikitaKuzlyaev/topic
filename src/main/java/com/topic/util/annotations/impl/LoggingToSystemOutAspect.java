@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Aspect
-public class LoggingAspect {
+public class LoggingToSystemOutAspect {
 
-    @Around("@annotation(com.topic.util.annotations.Logging)")
+    @Around("@annotation(com.topic.util.annotations.LoggingToSystemOut)")
     public Object logMethodExecution(ProceedingJoinPoint joinPoint) throws Throwable {
 
 

@@ -16,9 +16,9 @@ import com.topic.service.dto.PaginatedBoardDto;
 import com.topic.service.dto.UserDto;
 import com.topic.util.annotations.Authenticated;
 import com.topic.util.annotations.Logging;
+import com.topic.util.annotations.LoggingToSystemOut;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +29,6 @@ public class BoardController {
     private final BoardService boardService;
     private final BoardPolicyService boardPolicyService;
 
-    @Autowired
     public BoardController(
             BoardService boardService,
             BoardPolicyService boardPolicyService
@@ -42,6 +41,7 @@ public class BoardController {
     @PostMapping()
     @Authenticated
     @Logging
+    @LoggingToSystemOut
     public EntityIdResponse createBoard(
             @Valid @RequestBody BoardCreateRequest request,
             HttpServletRequest req
@@ -55,6 +55,7 @@ public class BoardController {
     @DeleteMapping("/{boardId}")
     @Authenticated
     @Logging
+    @LoggingToSystemOut
     public SuccessResponse deleteBoard(
             @PathVariable Long boardId,
             HttpServletRequest req
@@ -72,6 +73,7 @@ public class BoardController {
 
     @GetMapping("/{id}")
     @Logging
+    @LoggingToSystemOut
     public BoardFullInfoResponse getBoardFullInfo(
             @PathVariable Long id
     ) {
@@ -82,6 +84,7 @@ public class BoardController {
 
     @GetMapping("")
     @Logging
+    @LoggingToSystemOut
     public BoardPaginatedResponse getBoardsPaginated(
             @RequestParam(required = false) Long parentId,
             @RequestParam(defaultValue = "0") int page,

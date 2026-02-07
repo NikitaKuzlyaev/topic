@@ -10,7 +10,6 @@ import com.topic.service.dto.UserDto;
 import com.topic.util.annotations.Authenticated;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,8 +18,7 @@ public class PublicationController {
 
     private final PublicationService publicationService;
 
-    @Autowired
-    public PublicationController(PublicationService publicationService){
+    public PublicationController(PublicationService publicationService) {
         this.publicationService = publicationService;
     }
 

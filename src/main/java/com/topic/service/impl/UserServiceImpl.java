@@ -6,7 +6,7 @@ import com.topic.service.UserService;
 import com.topic.service.dto.UserCreateDto;
 import com.topic.service.dto.UserDto;
 import com.topic.service.helpers.UserServiceImplHelper;
-import com.topic.util.annotations.Logging;
+import com.topic.util.annotations.LoggingToSystemOut;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Logging
+    @LoggingToSystemOut
     public Optional<UserDto> getUserByLogin(String login) {
         Optional<User> data = userRepository.findByLogin(login);
         return packToOptionalResponse(data);

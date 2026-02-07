@@ -8,6 +8,7 @@ import com.topic.service.PublicationService;
 import com.topic.service.dto.PublicationDto;
 import com.topic.service.dto.UserDto;
 import com.topic.util.annotations.Authenticated;
+import com.topic.util.annotations.LoggingToKafkaTopic;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ public class PublicationController {
 
     @PostMapping()
     @Authenticated
+    @LoggingToKafkaTopic
     public EntityIdResponse createPublication(
             @Valid @RequestBody PublicationCreateRequest request,
             HttpServletRequest req
@@ -38,6 +40,7 @@ public class PublicationController {
     }
 
     @GetMapping("/{id}")
+    @LoggingToKafkaTopic
     public PublicationInfoResponse getPublication(
             @PathVariable Long id
     ) {

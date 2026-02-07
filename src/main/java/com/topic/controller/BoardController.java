@@ -15,7 +15,7 @@ import com.topic.service.dto.BoardWithAllPublicationsDto;
 import com.topic.service.dto.PaginatedBoardDto;
 import com.topic.service.dto.UserDto;
 import com.topic.util.annotations.Authenticated;
-import com.topic.util.annotations.Logging;
+import com.topic.util.annotations.LoggingToKafkaTopic;
 import com.topic.util.annotations.LoggingToSystemOut;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -40,8 +40,8 @@ public class BoardController {
 
     @PostMapping()
     @Authenticated
-    @Logging
     @LoggingToSystemOut
+    @LoggingToKafkaTopic
     public EntityIdResponse createBoard(
             @Valid @RequestBody BoardCreateRequest request,
             HttpServletRequest req
@@ -54,8 +54,8 @@ public class BoardController {
 
     @DeleteMapping("/{boardId}")
     @Authenticated
-    @Logging
     @LoggingToSystemOut
+    @LoggingToKafkaTopic
     public SuccessResponse deleteBoard(
             @PathVariable Long boardId,
             HttpServletRequest req
@@ -72,8 +72,8 @@ public class BoardController {
 
 
     @GetMapping("/{id}")
-    @Logging
     @LoggingToSystemOut
+    @LoggingToKafkaTopic
     public BoardFullInfoResponse getBoardFullInfo(
             @PathVariable Long id
     ) {
@@ -83,8 +83,8 @@ public class BoardController {
 
 
     @GetMapping("")
-    @Logging
     @LoggingToSystemOut
+    @LoggingToKafkaTopic
     public BoardPaginatedResponse getBoardsPaginated(
             @RequestParam(required = false) Long parentId,
             @RequestParam(defaultValue = "0") int page,

@@ -9,7 +9,7 @@ import com.topic.service.AuthenticationService;
 import com.topic.service.JwtTokenService;
 import com.topic.service.dto.UserDto;
 import com.topic.util.annotations.Authenticated;
-import com.topic.util.annotations.Logging;
+import com.topic.util.annotations.LoggingToKafkaTopic;
 import com.topic.util.annotations.LoggingToSystemOut;
 import com.topic.util.exeptions.EntityDoesNotExistsException;
 import com.topic.util.exeptions.PasswordValidationException;
@@ -39,6 +39,7 @@ public class AuthController {
     // todo: я не очень понял как я тут решил использовать AuthResponse вместе с токенами (хотя они не нужны)
     // по сути тут только 201 надо кидать, если все ок. пока пусть так...
     @PostMapping("/register")
+    @LoggingToKafkaTopic
     public ResponseEntity<AuthResponse> register(
             @Valid @RequestBody RegisterRequest request
     ){
@@ -55,8 +56,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    @Logging
     @LoggingToSystemOut
+    @LoggingToKafkaTopic
     public ResponseEntity<AuthResponse> login(
             @Valid @RequestBody LoginRequest request
     ) {
@@ -78,8 +79,8 @@ public class AuthController {
 
     @GetMapping("/me")
     @Authenticated
-    @Logging
     @LoggingToSystemOut
+    @LoggingToKafkaTopic
     public ResponseEntity<UserDataResponse> me(
             HttpServletRequest request
     ) {
@@ -92,11 +93,13 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
+    @LoggingToKafkaTopic
     public void refresh(){
 
     }
 
     @PostMapping("/logout")
+    @LoggingToKafkaTopic
     public void logout(){
 
     }

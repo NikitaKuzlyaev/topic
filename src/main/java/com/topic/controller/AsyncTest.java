@@ -1,9 +1,9 @@
 package com.topic.controller;
 
 import com.topic.dto.api.response.MessageResponse;
-import com.topic.kafka.KafkaTopicInitializer;
+import com.topic.service.KafkaLoggingService;
+import com.topic.service.impl.AsyncTaskServiceImpl;
 import com.topic.util.annotations.LoggingToSystemOut;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,26 +12,33 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/async")
 public class AsyncTest {
 
-    private final KafkaTopicInitializer debugKafkaTopic;
-
-    private final KafkaTopicInitializer logKafkaTopic;
+    private final KafkaLoggingService kafkaLoggingService;
+    private final AsyncTaskServiceImpl asyncTaskService;
 
     public AsyncTest(
-            @Qualifier("Kafka.Topics.DebugKafkaTopic")
-            KafkaTopicInitializer debugKafkaTopic,
-
-            @Qualifier("Kafka.Topics.LogKafkaTopic")
-            KafkaTopicInitializer logKafkaTopic
+            KafkaLoggingService kafkaLoggingService,
+            AsyncTaskServiceImpl asyncTaskService
     ) {
-        this.debugKafkaTopic = debugKafkaTopic;
-        this.logKafkaTopic = logKafkaTopic;
+        this.kafkaLoggingService = kafkaLoggingService;
+        this.asyncTaskService = asyncTaskService;
     }
 
 
     @GetMapping("/test")
     @LoggingToSystemOut
-    public MessageResponse processAsyncTask(){
-        return new MessageResponse("Fail"); // заглушка
+    public MessageResponse processAsyncTask() {
+
+        asyncTaskService.delayInSeconds(5)
+                .thenAccept(result -> {
+                    kafkaLoggingService.makeLog("Task complete");
+                    System.out.println("--> Async Task completed! :)");
+                })
+                .exceptionally(ex -> {
+                    kafkaLoggingService.makeLog("Task interrupted");
+                    return null;
+                });
+
+        return new MessageResponse("Ok. Task accepted");
     }
 
 }

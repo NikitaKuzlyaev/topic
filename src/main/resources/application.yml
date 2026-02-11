@@ -1,0 +1,81 @@
+debug: false
+
+server:
+  port: 8080
+
+spring:
+  aop:
+    auto: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/topic
+    username: postgres
+    password: 2476
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate   # Bad configuration in production
+    properties:
+      hibernate:
+        format_sql: true
+        order_inserts: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  session:
+    jdbc:
+      initialize-schema: always
+    store-type: jdbc
+
+  liquibase:
+    enabled: false
+    default-schema: public
+    liquibase-schema: public
+
+  kafka:
+    bootstrap-servers: localhost:9092
+
+  data:
+    redis:
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 2
+          max-wait: -1ms
+          timeout: 2000ms
+
+  quartz:
+    job-store-type: memory
+    auto-startup: true
+    wait-for-jobs-to-complete-on-shutdown: true
+    overwrite-existing-jobs: true
+    properties:
+      org:
+        quartz:
+          threadPool:
+            threadCount: 3
+          jobStore:
+            misfireThreshold: 60000
+
+# Jwt
+jwt:
+  secret: super-duper-extra-mega-secret-key
+  access-token-expiration: 900000
+  refresh-token-expiration: 2592000000
+  issuer: topic
+
+# AsyncTaskThreadPool configuration
+thread:
+  pool:
+    asynctest:
+      core-pool-size: 2
+      max-pool-size: 4
+      keep-alive-time: 10
+      queue-capacity: 12

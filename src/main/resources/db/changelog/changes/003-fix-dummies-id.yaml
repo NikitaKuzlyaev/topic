@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/changes/003-fix-dummies-id.yaml
+
+  - changeSet:
+      id: 003-fix-dummies-id-identity
+      author: nikita
+      changes:
+        - addAutoIncrement:
+            tableName: dummies
+            columnName: id
+            columnDataType: BIGINT

@@ -6,3 +6,7 @@ databaseChangeLog:
   - include:
       file: changes/002-add-dummy.yaml
       relativeToChangelogFile: true
+
+  - include:
+      file: changes/003-fix-dummies-id.yaml
+      relativeToChangelogFile: true

@@ -21,7 +21,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate   # Bad configuration in production
+      ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
@@ -34,7 +34,8 @@ spring:
     store-type: jdbc
 
   liquibase:
-    enabled: false
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
     default-schema: public
     liquibase-schema: public
 

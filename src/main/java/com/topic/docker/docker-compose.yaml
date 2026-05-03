@@ -41,6 +41,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_RESTART_ATTEMPTS: "10"
       KAFKA_RESTART_DELAY: "5"
+      KAFKA_NUM_PARTITIONS: 2
 
   kafdrop:
     image: obsidiandynamics/kafdrop:latest

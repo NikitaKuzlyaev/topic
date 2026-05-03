@@ -4,6 +4,7 @@ import com.topic.service.KafkaLoggingService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,6 +14,7 @@ public class LoggingToKafkaAspect {
     private final KafkaLoggingService kafkaLoggingService;
 
     public LoggingToKafkaAspect(
+            @Qualifier("KafkaLoggingServiceImpl")
             KafkaLoggingService kafkaLoggingService
     ) {
         this.kafkaLoggingService = kafkaLoggingService;

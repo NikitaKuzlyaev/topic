@@ -6,13 +6,15 @@ import com.topic.service.KafkaLoggingService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-@Service("KafkaLoggingServiceImpl")
-public class KafkaLoggingServiceImpl implements KafkaLoggingService {
+import java.util.concurrent.ThreadLocalRandom;
+
+@Service("KafkaNPartitionsServiceImpl")
+public class KafkaNPartitionsServiceImpl implements KafkaLoggingService {
 
     private final KafkaProducerService kafkaProducerService;
     private final LogKafkaTopic kafkaTopic;
 
-    public KafkaLoggingServiceImpl(
+    public KafkaNPartitionsServiceImpl(
             @Qualifier("com.topic.kafka.service.KafkaProducerServiceImpl")
             KafkaProducerService kafkaProducerService,
 
@@ -23,11 +25,9 @@ public class KafkaLoggingServiceImpl implements KafkaLoggingService {
         this.kafkaTopic = kafkaTopic;
     }
 
-
     @Override
     public void makeLog(String message) {
-        kafkaProducerService.send(kafkaTopic.getName(), message);
+        kafkaProducerService.send(kafkaTopic.getName(), String.valueOf(ThreadLocalRandom.current().nextInt() % 2), message);
     }
-
 
 }

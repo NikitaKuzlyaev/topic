@@ -4,6 +4,7 @@ import com.topic.dto.api.response.MessageResponse;
 import com.topic.service.KafkaLoggingService;
 import com.topic.service.impl.AsyncTaskServiceImpl;
 import com.topic.util.annotations.LoggingToSystemOut;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +17,9 @@ public class AsyncTest {
     private final AsyncTaskServiceImpl asyncTaskService;
 
     public AsyncTest(
+            @Qualifier("KafkaLoggingServiceImpl")
             KafkaLoggingService kafkaLoggingService,
+
             AsyncTaskServiceImpl asyncTaskService
     ) {
         this.kafkaLoggingService = kafkaLoggingService;

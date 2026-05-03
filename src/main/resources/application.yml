@@ -40,6 +40,11 @@ spring:
     liquibase-schema: public
 
   kafka:
+#    producer:
+#      properties:
+#        partitioner:
+#          class: org.apache.kafka.clients.producer.RoundRobinPartitioner
+
     bootstrap-servers: localhost:9092
 
   data:

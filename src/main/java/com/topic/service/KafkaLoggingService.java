@@ -1,5 +1,5 @@
 package com.topic.service;
 
-public interface KafkaLoggingService extends LoggingService{
+public interface KafkaLoggingService extends LoggingService {
 
 }
